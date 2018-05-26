@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTAMobile.Android", "TTAMobile\TTAMobile.Android\TTAMobile.Android.csproj", "{C9257B04-C90E-41B5-94D7-E2AAAE53E84F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTAMobile.Android", "TTAMobile.Android\TTAMobile.Android.csproj", "{C9257B04-C90E-41B5-94D7-E2AAAE53E84F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTAMobile.iOS", "TTAMobile\TTAMobile.iOS\TTAMobile.iOS.csproj", "{4D0012E8-446C-4AC6-9A04-213B57D7C23B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTAMobile.iOS", "TTAMobile.iOS\TTAMobile.iOS.csproj", "{4D0012E8-446C-4AC6-9A04-213B57D7C23B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTAMobile", "TTAMobile\TTAMobile\TTAMobile.csproj", "{52574C6D-22F2-45AC-9A9D-B75FFD96B8B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTAMobile", "TTAMobile\TTAMobile.csproj", "{52574C6D-22F2-45AC-9A9D-B75FFD96B8B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

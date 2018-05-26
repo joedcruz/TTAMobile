@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:TTAMobile"
              x:Class="TTAMobile.MainPage">
 
-	<Label Text="Welcome to Xamarin.Forms!" 
+	<Label Text="Welcome to TTA Mobile!" 
            VerticalOptions="Center" 
            HorizontalOptions="Center" />
 
