@@ -14,19 +14,23 @@
         </StackLayout>
 
         <StackLayout>
-            <Entry x:Name="username" Placeholder="Username" />
+            <Entry x:Name="username" Placeholder="Username" HeightRequest="40" FontSize="Small"/>
         </StackLayout>
 
         <StackLayout>
-            <Entry x:Name="password" IsPassword="True" Placeholder="Password" />
+            <Entry x:Name="password" IsPassword="True" Placeholder="Password" HeightRequest="40" FontSize="Small"/>
         </StackLayout>
 
         <StackLayout>
-            <Label x:Name="welcome" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+            <Label x:Name="welcome" FontAttributes="Bold" HorizontalTextAlignment="Center" HeightRequest="20" FontSize="Micro"/>
         </StackLayout>
 
         <StackLayout>
             <Button Text="Login" BackgroundColor="LightGray" Clicked="Login_OnClicked"></Button>
+        </StackLayout>
+
+        <StackLayout>
+            <Button Text="Logout" BackgroundColor="LightGray" Clicked="Logout_OnClicked"></Button>
         </StackLayout>
 
         <StackLayout>

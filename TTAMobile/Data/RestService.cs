@@ -12,18 +12,21 @@ namespace TTAMobile
     {        
         HttpClient client;
         UserInfoModel userInfoModel;
+        List<string> userRoles;
+        List<string> roleClaims;
         public string newToken;
         public static string loginUrl = "";
 
         public RestService()
         {
-            client = new HttpClient();
-            client.MaxResponseContentBufferSize = 256000;
+            //client = new HttpClient();
+            //client.MaxResponseContentBufferSize = 256000;
             userInfoModel = new UserInfoModel();
         }
 
         public async Task<UserInfoModel> Login(string username, string password)
         {
+            client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -63,71 +66,149 @@ namespace TTAMobile
             //return newToken;
         }
 
-        public async Task<T> PostResponseLogin<T>(string weburl, FormUrlEncodedContent content) where T : class
-        {            
-            var response = await client.PostAsync(weburl, content);
-            var jsonResult = response.Content.ReadAsStringAsync().Result;
-            var responseObject = JsonConvert.DeserializeObject<T>(jsonResult);
-            return responseObject;
+        // Api method for retrieving all roles assigned to the user
+        public async Task<List<string>> GetUserRoles(string userId, string token)
+        {
+            if (userId != null)
+            {
+                // Call api GetUserRoles by passing the user id as body and user token as header
+                UserInfoModel _userInfoModel = new UserInfoModel();
+
+                client = new HttpClient();
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                _userInfoModel.UserId = userId;
+                var jsonData = new StringContent(JsonConvert.SerializeObject(_userInfoModel), Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await client.PostAsync("http://10.0.2.2:5000/api/userroles", jsonData);
+                response.EnsureSuccessStatusCode();
+                var responseData = response.Content.ReadAsStringAsync().Result;
+                userRoles = JsonConvert.DeserializeObject<List<string>>(responseData.ToString());
+
+                client.Dispose();
+            }
+
+            return userRoles;
         }
 
-        public async Task<T> PostResponse<T>(string weburl, string jsonString) where T : class
+
+        // Api method for retrieving all roles who has access to the form
+        public async Task<List<string>> GetRoleClaims(List<string> roles, string pageName, string token)
         {
-            var Token = ""; // App.TokenDatabase.GetToken();
-            string ContentType = "application/json";
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
-            try
+            if (roles != null)
             {
-                var result = await client.PostAsync(weburl, new StringContent(jsonString, Encoding.UTF8, ContentType));
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                // Call api GetRoleClaims by passing the claim type and claim value as body and user token as header
+                RoleClaimsModel _rolesClaimsModel = new RoleClaimsModel();
+
+                client = new HttpClient();
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                _rolesClaimsModel.Type = "Mobile";
+                _rolesClaimsModel.Value = pageName;
+                var jsonData = new StringContent(JsonConvert.SerializeObject(_rolesClaimsModel), Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await client.PostAsync("http://10.0.2.2:5000/api/roleclaims", jsonData);
+                response.EnsureSuccessStatusCode();
+                var responseData4 = response.Content.ReadAsStringAsync().Result;
+                roleClaims = JsonConvert.DeserializeObject<List<string>>(responseData4.ToString());
+
+                client.Dispose();
+            }
+
+            return roleClaims;
+        }
+
+
+        public Boolean CheckPageAuthorization(List<string> roles, List<string> claims)
+        {
+            bool roleMatch = false;
+
+            // Check if any roles match
+            foreach (var x in roles)
+            {
+                foreach (var y in claims)
                 {
-                    var jsonResult = result.Content.ReadAsStringAsync().Result;
-                    try
+                    if (x == y)
                     {
-                        var contentResp = JsonConvert.DeserializeObject<T>(jsonResult);
-                        return contentResp;
-                    }
-                    catch
-                    {
-                        return null;
+                        roleMatch = true;
+                        break;
                     }
                 }
             }
-            catch
-            {
-                return null;
-            }
 
-            return null;
+            return roleMatch;
         }
 
-        public async Task<T> GetResponse<T>(string weburl) where T : class
-        {
-            var Token = "";  //App.TokenDatabase.GetToken();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
-            try
-            {
-                var response = await client.GetAsync(weburl);
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    var jsonResult = response.Content.ReadAsStringAsync().Result;
-                    try
-                    {
-                        var contentResp = JsonConvert.DeserializeObject<T>(jsonResult);
-                        return contentResp;
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch
-            {
-                return null;
-            }
 
-            return null;
-        }
+        //public async Task<T> PostResponseLogin<T>(string weburl, FormUrlEncodedContent content) where T : class
+        //{            
+        //    var response = await client.PostAsync(weburl, content);
+        //    var jsonResult = response.Content.ReadAsStringAsync().Result;
+        //    var responseObject = JsonConvert.DeserializeObject<T>(jsonResult);
+        //    return responseObject;
+        //}
+
+        //public async Task<T> PostResponse<T>(string weburl, string jsonString) where T : class
+        //{
+        //    var Token = ""; // App.TokenDatabase.GetToken();
+        //    string ContentType = "application/json";
+        //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+        //    try
+        //    {
+        //        var result = await client.PostAsync(weburl, new StringContent(jsonString, Encoding.UTF8, ContentType));
+        //        if (result.StatusCode == System.Net.HttpStatusCode.OK)
+        //        {
+        //            var jsonResult = result.Content.ReadAsStringAsync().Result;
+        //            try
+        //            {
+        //                var contentResp = JsonConvert.DeserializeObject<T>(jsonResult);
+        //                return contentResp;
+        //            }
+        //            catch
+        //            {
+        //                return null;
+        //            }
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        return null;
+        //    }
+
+        //    return null;
+        //}
+
+        //public async Task<T> GetResponse<T>(string weburl) where T : class
+        //{
+        //    var Token = "";  //App.TokenDatabase.GetToken();
+        //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+        //    try
+        //    {
+        //        var response = await client.GetAsync(weburl);
+        //        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+        //        {
+        //            var jsonResult = response.Content.ReadAsStringAsync().Result;
+        //            try
+        //            {
+        //                var contentResp = JsonConvert.DeserializeObject<T>(jsonResult);
+        //                return contentResp;
+        //            }
+        //            catch
+        //            {
+        //                return null;
+        //            }
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        return null;
+        //    }
+
+        //    return null;
+        //}
     }
 }
