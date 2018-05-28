@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TTAMobile"
+             x:Class="TTAMobile.MainPage"
+             Title="TTA Mobile">
+
+    <StackLayout>
+        
+        <StackLayout>
+            <Label Text="Welcome to TTA Mobile!" 
+                   VerticalOptions="Start" 
+                   HorizontalOptions="Center" />
+        </StackLayout>
+
+        <StackLayout>
+            <Entry x:Name="username" Placeholder="Username" />
+        </StackLayout>
+
+        <StackLayout>
+            <Entry x:Name="password" IsPassword="True" Placeholder="Password" />
+        </StackLayout>
+
+        <StackLayout>
+            <Label x:Name="welcome" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+        </StackLayout>
+
+        <StackLayout>
+            <Button Text="Login" BackgroundColor="LightGray" Clicked="Login_OnClicked"></Button>
+        </StackLayout>
+
+        <StackLayout>
+            <Button Text="Page 1" BackgroundColor="LightGray" Clicked="Page1_OnClicked"></Button>
+        </StackLayout>
+
+        <StackLayout>
+            <Button Text="Page 2" BackgroundColor="LightGray" Clicked="Page2_OnClicked"></Button>
+        </StackLayout>
+        
+    </StackLayout>
+
+</ContentPage>

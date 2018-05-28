@@ -9,11 +9,13 @@ namespace TTAMobile
 {
 	public partial class App : Application
 	{
+        static RestService restService;
+
 		public App ()
 		{
 			InitializeComponent();
 
-			MainPage = new TTAMobile.MainPage();
+			MainPage = new NavigationPage(new MainPage());
 		}
 
 		protected override void OnStart ()
@@ -30,5 +32,17 @@ namespace TTAMobile
 		{
 			// Handle when your app resumes
 		}
+
+        public static RestService RestService
+        {
+            get
+            {
+                if(restService == null)
+                {
+                    restService = new RestService();
+                }
+                return restService;
+            }
+        }
 	}
 }
