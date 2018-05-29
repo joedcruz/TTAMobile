@@ -22,7 +22,25 @@ namespace TTAMobile
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            //username.Focus();
+        }
+
+        private async void Register_OnClicked(object sender, EventArgs e)
+        {
+            Boolean success = false;
+            success = await App.RestService.Register(username.Text, password.Text);
+
+            if (success)
+            {
+                DisplayAlert("Registration", "Registration Successful", "OK");
+                username.Text = "";
+                password.Text = "";
+            }
+            else
+            {
+                DisplayAlert("Registration", "Registration Failed", "OK");
+                username.Text = "";
+                password.Text = "";
+            }
         }
 
         private async void Login_OnClicked(object sender, EventArgs e)
@@ -31,7 +49,7 @@ namespace TTAMobile
             userInfoModel = await App.RestService.Login(username.Text, password.Text);
             if (userInfoModel != null)
             {
-                welcome.Text = "Welcome " + userInfoModel.Username;
+                this.Title = "Welcome " + userInfoModel.Username;
                 username.Text = "";
                 password.Text = "";
                 username.IsEnabled = false;
@@ -43,7 +61,7 @@ namespace TTAMobile
         {
             username.IsEnabled = true;
             password.IsEnabled = true;
-            welcome.Text = "";
+            this.Title = "TTA Mobile";
         }
 
         private async void Page1_OnClicked(object sender, EventArgs e)

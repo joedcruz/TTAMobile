@@ -24,6 +24,30 @@ namespace TTAMobile
             userInfoModel = new UserInfoModel();
         }
 
+        public async Task<Boolean> Register(string username, string password)
+        {
+            RegistrationInfo registrationInfo = new RegistrationInfo();
+            Boolean registrationSuccess = false;
+            client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                        
+            registrationInfo.MobileNo = username;
+            registrationInfo.Password = password;
+            var jsonData = new StringContent(JsonConvert.SerializeObject(registrationInfo), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await client.PostAsync("http://10.0.2.2:5000/api/register", jsonData);
+            response.EnsureSuccessStatusCode();
+            registrationSuccess = true;
+            var responseData = response.Content.ReadAsStringAsync().Result;
+            //userRoles = JsonConvert.DeserializeObject<List<string>>(responseData.ToString());
+
+            client.Dispose();
+
+            return registrationSuccess;
+        }
+
         public async Task<UserInfoModel> Login(string username, string password)
         {
             client = new HttpClient();

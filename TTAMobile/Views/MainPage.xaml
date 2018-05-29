@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:TTAMobile"
              x:Class="TTAMobile.MainPage"
              Title="TTA Mobile">
-
+    
     <StackLayout>
         
         <StackLayout>
@@ -21,23 +21,23 @@
             <Entry x:Name="password" IsPassword="True" Placeholder="Password" HeightRequest="40" FontSize="Small"/>
         </StackLayout>
 
-        <StackLayout>
-            <Label x:Name="welcome" FontAttributes="Bold" HorizontalTextAlignment="Center" HeightRequest="20" FontSize="Micro"/>
+        <StackLayout Padding="0,0,0,0">
+            <Button Text="Register" BackgroundColor="LightGray" Clicked="Register_OnClicked"></Button>
         </StackLayout>
-
-        <StackLayout>
+        
+        <StackLayout Padding="0,-10,0,0">
             <Button Text="Login" BackgroundColor="LightGray" Clicked="Login_OnClicked"></Button>
         </StackLayout>
 
-        <StackLayout>
+        <StackLayout Padding="0,-10,0,0">
             <Button Text="Logout" BackgroundColor="LightGray" Clicked="Logout_OnClicked"></Button>
         </StackLayout>
 
-        <StackLayout>
+        <StackLayout Padding="0,-10,0,0">
             <Button Text="Page 1" BackgroundColor="LightGray" Clicked="Page1_OnClicked"></Button>
         </StackLayout>
 
-        <StackLayout>
+        <StackLayout Padding="0,-10,0,0">
             <Button Text="Page 2" BackgroundColor="LightGray" Clicked="Page2_OnClicked"></Button>
         </StackLayout>
         
